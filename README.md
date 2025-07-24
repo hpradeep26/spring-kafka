@@ -1,5 +1,4 @@
 # 📘 Apache Kafka Command Cheat Sheet
-### 🚀 By [Coding Decoded](https://www.youtube.com/c/CodingDecoded) | 👨‍💻 Sunchit Dudeja
 
 A concise guide to commonly used Kafka command-line tools for managing topics, brokers, producers, consumers, and more.
 
