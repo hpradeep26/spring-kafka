@@ -77,6 +77,33 @@ Topics
 Topics are partitioned, meaning a topic is spread over a number of "buckets" located on different Kafka brokers. 
 
 
+Why Kafka?
+
+High Throughput 
+Fault Tolernace.
+Durable
+Scalable
+
+
+
+Kafka Architecture 
+Producer --->  Kafka Eco System----- Consumer
+
+Kafka cluster 
+Kafka Broker1/broker2 
+Zoo keeper
+
+
+Kafka Eco System---> Kafka cluster -->Broker --> Topic ---> Partition1/2
+
+Apache Kafka is an open-source distributed event streaming platform used by thousands of companies for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.
+
+
+Kafka combines three key capabilities so you can implement your use cases for event streaming end-to-end with a single battle-tested solution:
+To publish (write) and subscribe to (read) streams of events, including continuous import/export of your data from other systems.
+To store streams of events durably and reliably for as long as you want.
+To process streams of events as they occur or retrospectively.
+
 Kafka APIs
 -----------------
 The Admin API to manage and inspect topics, brokers, and other Kafka objects.
@@ -148,3 +175,59 @@ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic driver-l
 Complete State of Consumers
 
 bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group driver-location-consumer
+
+
+🔽 Step 1: Download Kafka 4.0
+Go to the official Apache Kafka download page:
+https://kafka.apache.org/downloads
+
+Download the Kafka 4.0.0 binary Scala 2.13 version (recommended):
+
+kafka_2.13-4.0.0.tgz
+Extract it to a folder, e.g., C:\kafka
+
+⚙️ Step 2: Setup Environment
+Set JAVA_HOME environment variable to JDK 17+.
+
+In PowerShell/CMD:
+
+
+cd C:\kafka\kafka_2.13-4.0.0
+
+🛠️ Step 3: Configure KRaft (no ZooKeeper needed)
+Kafka 4.0 requires a KRaft cluster ID.
+
+Create the log directory:
+
+
+mkdir C:\kafka\logs
+Generate cluster ID:
+
+.\bin\windows\kafka-storage.bat random-uuid
+Copy the output UUID.
+
+Format storage:
+.\bin\windows\kafka-storage.bat format -t <Generated UUID from above Step > -c .\config\kraft\server.properties
+
+
+▶️ Step 4: Start Kafka Server
+Run Kafka in KRaft mode:
+
+.\bin\windows\kafka-server-start.bat .\config\kraft\server.properties
+
+You’ll see logs indicating the broker has started and is ready to accept connections.
+
+🧪 Step 5: Test Kafka
+Create a topic:
+
+
+.\bin\windows\kafka-topics.bat --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+Produce messages:
+
+
+.\bin\windows\kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092
+Consume messages:
+
+
+.\bin\windows\kafka-console-consumer.bat --topic test-topic --from-beginning --bootstrap-server localhost:9092
+✅ You’re Done!
